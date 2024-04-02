@@ -1,4 +1,4 @@
-const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
+import delay from "../utils/delay";
 
 const selectionSort = async (
   arr,
@@ -13,7 +13,6 @@ const selectionSort = async (
     let currentIndex = i;
     let minIndex = i + 1;
     for (let j = i + 1; j < len; j++) {
-      await delay(delayMilliSeconds);
       // find minimum
       if (arr[j] < arr[minIndex]) {
         minIndex = j;
@@ -23,13 +22,14 @@ const selectionSort = async (
       [arr[currentIndex], arr[minIndex]] = [arr[minIndex], arr[currentIndex]];
     }
     setActiveIndex([currentIndex, minIndex]);
+    await delay(delayMilliSeconds);
     // pass in new array ∵ react compares by reference
     updateArray([...arr]);
   }
 
   for (let i = 0; i < len; i++) {
-    await delay(delayMilliSeconds);
     setActiveIndex([i]);
+    await delay(delayMilliSeconds);
   }
   setActiveIndex([]);
 };
