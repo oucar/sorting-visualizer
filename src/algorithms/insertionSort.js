@@ -24,8 +24,8 @@ const insertionSort = async (
   }
 
   for (let i = 0; i < len; i++) {
-    await delay(delayMilliSeconds);
     setActiveIndex([i]);
+    await delay(delayMilliSeconds);
   }
   setActiveIndex([]);
 };
