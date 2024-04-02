@@ -1,4 +1,5 @@
-const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
+import delay from "../utils/delay";
+import sequenceHighlight from "../utils/sequenceHighlight";
 
 const insertionSort = async (
   arr,
@@ -6,10 +7,10 @@ const insertionSort = async (
   setActiveIndex,
   delayMilliSeconds
 ) => {
-  const len = arr.length;
-  if (len <= 1) return arr;
+  const length = arr.length;
+  if (length <= 1) return arr;
 
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < length; i++) {
     let key = arr[i];
 
     let j = i - 1;
@@ -23,11 +24,7 @@ const insertionSort = async (
     updateArr([...arr]);
   }
 
-  for (let i = 0; i < len; i++) {
-    setActiveIndex([i]);
-    await delay(delayMilliSeconds);
-  }
-  setActiveIndex([]);
+  sequenceHighlight(length, setActiveIndex, delayMilliSeconds);
 };
 
 export default insertionSort;

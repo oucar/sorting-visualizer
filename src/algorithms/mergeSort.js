@@ -1,5 +1,6 @@
-const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
+import delay from "../utils/delay";
 
+// recursive implementation
 const mergeSort = async (
   arr,
   updateArr,
@@ -32,13 +33,14 @@ const mergeSort = async (
 };
 
 const merge = async (
+  arr,
   left,
   right,
   updateArr,
   setActiveIndex,
   delayMilliSeconds
 ) => {
-  const tempArr = [];
+  let tempArr;
 
   while (left.length > 0 && right.length > 0) {
     await delay(delayMilliSeconds);
