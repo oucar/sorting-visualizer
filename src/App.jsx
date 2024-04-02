@@ -5,18 +5,19 @@ import bubbleSort from './algorithms/bubbleSort';
 import selectionSort from './algorithms/selectionSort';
 import insertionSort from './algorithms/insertionSort';
 import mergeSort from './algorithms/mergeSort';
+import mergeSortIterative from './algorithms/mergeSortIterative';
+import heapSort from './algorithms/heapSort';
 
 
 const App = () => {
 
-  const [delay, setDelay] = useState(100)
+  const [delay, setDelay] = useState(50)
   const [activeIndex, setActiveIndex] = useState([])
   const [currentArray, setCurrentArray] = useState(
-    [20, 3, 10, 13, 14, 15, 7, 2, 12, 9, 16, 
-      17, 5, 1, 4, 6, 11, 19, 20, 15, 7, 2, 8]
+    [39, 12, 44, 28, 6, 22, 18, 7, 49, 48, 15, 50, 42, 14, 16, 26, 36, 1, 29, 34, 40, 25, 43, 2, 9, 38, 24, 13, 4, 46, 35, 3, 19, 10, 17, 23, 31, 8, 20, 5, 45, 30, 47, 32, 37, 11, 21, 27, 33, 41]
   )
   useEffect(() => {
-    insertionSort(currentArray, setCurrentArray, setActiveIndex, delay)
+    heapSort(currentArray, setCurrentArray, setActiveIndex, delay)
   }, [])
 
 
