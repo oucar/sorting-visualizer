@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import Element from './components/Element/Element';
+import Element from './components/element/Element';
 import bubbleSort from './algorithms/bubbleSort';
 import selectionSort from './algorithms/selectionSort';
 import insertionSort from './algorithms/insertionSort';
@@ -16,7 +16,7 @@ const App = () => {
       17, 5, 1, 4, 6, 11, 19, 20, 15, 7, 2, 8]
   )
   useEffect(() => {
-    mergeSort(currentArray, setCurrentArray, setActiveIndex, delay)
+    insertionSort(currentArray, setCurrentArray, setActiveIndex, delay)
   }, [])
 
 
