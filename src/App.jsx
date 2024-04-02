@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import Element from './components/element/Element';
+import Element from './components/Element/Element';
 import bubbleSort from './algorithms/bubbleSort';
 import selectionSort from './algorithms/selectionSort';
 import insertionSort from './algorithms/insertionSort';
+import mergeSort from './algorithms/mergeSort';
 
 
 const App = () => {
 
-  const [delay, setDelay] = useState(50)
+  const [delay, setDelay] = useState(100)
   const [activeIndex, setActiveIndex] = useState([])
   const [currentArray, setCurrentArray] = useState(
-    [20, 3, 10, 13, 14, 15, 7, 2, 12, 9, 16, 17, 5, 1, 4, 6, 11, 19, 18, 8, 
-      20, 3, 10, 13, 14, 15, 7, 2, 12, 9, 16, 17, 5, 1, 4, 6, 11, 19, 18, 8,
-      20, 3, 10, 13, 14, 15, 7, 18, 8]
+    [20, 3, 10, 13, 14, 15, 7, 2, 12, 9, 16, 
+      17, 5, 1, 4, 6, 11, 19, 20, 15, 7, 2, 8]
   )
   useEffect(() => {
-    insertionSort(currentArray, setCurrentArray, setActiveIndex, delay)
+    mergeSort(currentArray, setCurrentArray, setActiveIndex, delay)
   }, [])
 
 
