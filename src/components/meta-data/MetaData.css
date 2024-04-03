@@ -1,0 +1,35 @@
+.meta-data {
+    display: flex;
+    flex-direction: row;
+    color: #FCF7F8;
+    align-self: flex-start;
+    position: absolute;
+    top: 27px;
+    left: 100px
+}
+
+.meta-data > p {
+    margin: 5px 10px;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    user-select: none;
+}
+
+.meta-data__algorithm {
+    font-weight: 600;
+}
+
+.change-delay {
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.change-delay:hover {
+    color: #FF194D;
+}
+
+@media (max-width: 900px) {
+    .meta-data {
+        flex-direction: column;
+    }
+}

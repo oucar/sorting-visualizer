@@ -1,0 +1,13 @@
+.visualization {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    transition: 0.5s;
+}
+
+@media (max-width: 800px) {
+    .visualization {
+        transform: rotate(90deg) scaleY(-0.6);
+    }
+}
