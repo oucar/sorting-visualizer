@@ -1,19 +1,19 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { toggleRerun } from "../../features/toggleRerunSlice";
+import "./Navigation.css";
 import AppsIcon from "@mui/icons-material/Apps";
 import Menu from "../menu/Menu";
 import DisabledByDefaultIcon from "@mui/icons-material/DisabledByDefault";
 import { useState } from "react";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { useDispatch } from "react-redux";
+import { toggleRerun } from "../../features/toggleRerunSlice";
 import CheckBoxOutlineBlankSharpIcon from "@mui/icons-material/CheckBoxOutlineBlankSharp";
-import Tooltip from "../tool-tip/Tooltip";
+import Tooltip from "../tooltip/Tooltip";
 
 const Navigation = () => {
   const dispatch = useDispatch();
 
   const style = {
-    transform: "scale(1.1)",
+    transform: "scale(1.1))",
   };
 
   const [menuVisible, setMenuVisible] = useState(false);
