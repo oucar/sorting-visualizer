@@ -17,6 +17,10 @@ export const delaySlice = createSlice({
         state.value += 500;
       } else if (state.value === 2000) {
         state.value = 2000;
+      } else if (state.value === 5) {
+        state.value += 5;
+      } else if (state.value < 100) {
+        state.value += 10;
       }
     },
     decrement: (state) => {

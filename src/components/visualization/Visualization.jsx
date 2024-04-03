@@ -8,7 +8,7 @@ const Visualization = (props) => {
   const sortingAlgorithm = useSelector((state) => state.algorithm.value);
   const toggleRerun = useSelector((state) => state.toggleRerun.value);
   const delay = useSelector((state) => state.delay.value);
-  const arrayLength = 100;
+  const arrayLength = 65;
   const [activeIndex, setActiveIndex] = useState([]);
   const [currentArray, setCurrentArray] = useState([]);
 
@@ -38,7 +38,7 @@ const Visualization = (props) => {
           throw new Error("Mapped algorithm is not a function");
         }
       } catch (error) {
-        console.log("ERROR: Sort was cancelled. " + error);
+        // runSort();
       }
     };
 
@@ -47,7 +47,7 @@ const Visualization = (props) => {
     return () => {
       isCancelled = true;
     };
-  }, [sortingAlgorithm, toggleRerun]);
+  }, [sortingAlgorithm, toggleRerun, delay]);
 
   const elements = currentArray.map((el, index) => (
     <Element
