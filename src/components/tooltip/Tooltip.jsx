@@ -2,19 +2,21 @@ import { useState } from "react";
 import "./Tooltip.css";
 
 const Tooltip = (props) => {
-  let timeout
-  const [active, setActive] = useState(false)
+  let timeout;
+  const [active, setActive] = useState(false);
 
   const showToolTip = () => {
     timeout = setTimeout(() => {
-      setActive(true)
-    }, 500)
-  }
+      setActive(true);
+    }, 500);
+  };
 
   const hideToolTip = () => {
-    clearInterval(timeout)
-    setActive(false)
-  }
+    clearInterval(timeout);
+    setActive(false);
+  };
+
+  const tooltipClassName = `Tooltip-Tip ${props.direction || 'right'}`;
 
   return (
     <div
@@ -23,17 +25,13 @@ const Tooltip = (props) => {
       onMouseLeave={hideToolTip}
     >
       {props.children}
-      {
-        active ?
-        <div className={`Tooltip-Tip right`}>
+      {active && (
+        <div className={tooltipClassName}>
           {props.content}
         </div>
-        :
-        null
-      }
-
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Tooltip
+export default Tooltip;
