@@ -29,7 +29,7 @@ const Navigation = () => {
             onClick={() => setMenuVisible((prev) => !prev)}
           >
             {menuVisible ? (
-              <DisabledByDefaultIcon style={{ ...style, color: "#FF194D" }} />
+              <DisabledByDefaultIcon style={{ ...style, color: "#274c77" }} />
             ) : (
               <AppsIcon style={style} />
             )}

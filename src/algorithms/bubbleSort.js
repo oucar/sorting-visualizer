@@ -8,7 +8,6 @@ const bubbleSort = async (
   delayMilliSeconds,
   arrayLength,
   setMetaData,
-  metData,
   cancellationCheckFn
 ) => {
   if (cancellationCheckFn && cancellationCheckFn()) {

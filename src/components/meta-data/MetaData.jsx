@@ -11,7 +11,6 @@ const MetaData = (props) => {
   const dispatch = useDispatch();
 
   return (
-    // @@TODO: complete tooltips
     <div className="meta-data">
       <Tooltip
         title="Add"
