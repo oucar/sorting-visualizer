@@ -2,13 +2,13 @@ import delay from "../utils/delay";
 import sequenceHighlight from "../utils/sequenceHighlight";
 import generateRandomSequence from "../utils/generateRandomSequence";
 
-const bubbleSort = async (
+const shellSort = async (
   setterFunc,
   setActiveIndex,
   delayMilliSeconds,
   arrayLength,
   setMetaData,
-  metData,
+  metaData,
   cancellationCheckFn
 ) => {
   if (cancellationCheckFn && cancellationCheckFn()) {
@@ -32,23 +32,27 @@ const bubbleSort = async (
   setterFunc([...arr]);
   await delay(500);
 
-  if (arrayLength <= 1) return arr;
+  const length = arr.length;
 
-  for (let i = 0; i < arrayLength; i++) {
+  let interval = Math.floor(length / 2);
+
+  while (interval >= 1) {
     if (cancellationCheckFn && cancellationCheckFn()) {
       setActiveIndex([]);
       return;
     }
-    for (let j = 0; j < arrayLength - i - 1; j++) {
-      await delay(delayMilliSeconds);
 
+    for (let i = 0; i + interval < length; i++) {
       if (cancellationCheckFn && cancellationCheckFn()) {
         setActiveIndex([]);
         return;
       }
 
-      if (arr[j] > arr[j + 1]) {
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      await delay(delayMilliSeconds);
+      setActiveIndex([i, i + interval]);
+      if (arr[i] > arr[i + interval]) {
+        [arr[i], arr[i + interval]] = [arr[i + interval], arr[i]];
+        setterFunc([...arr]);
 
         setMetaData({
           iterations: iterations,
@@ -58,20 +62,39 @@ const bubbleSort = async (
         });
       }
 
-      setActiveIndex([j, j + 1]);
-      // pass in new array ∵ react compares by reference
-      setterFunc([...arr]);
-
       setMetaData({
         iterations: (iterations += 1),
         comparisons: (comparisons += 1),
         swaps: swaps,
         shifts: shifts,
       });
+
+      let j = i;
+      while (j - interval >= 0 && arr[j - interval] > arr[j]) {
+        if (cancellationCheckFn && cancellationCheckFn()) {
+          setActiveIndex([]);
+          return;
+        }
+
+        [arr[j], arr[j - interval]] = [arr[j - interval], arr[j]];
+        setActiveIndex([j, j - interval]);
+        await delay(delayMilliSeconds);
+        setterFunc([...arr]);
+        j -= interval;
+
+        setMetaData({
+          iterations: (iterations += 1),
+          comparisons: comparisons,
+          swaps: (swaps += 1),
+          shifts: shifts,
+        });
+      }
     }
+
+    interval = Math.floor(interval / 2);
   }
 
-  sequenceHighlight(arrayLength, setActiveIndex, 10);
+  sequenceHighlight(length, setActiveIndex, 10);
 };
 
-export default bubbleSort;
+export default shellSort;

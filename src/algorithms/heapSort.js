@@ -1,65 +1,180 @@
-import delay from "../utils/delay";
-import sequenceHighlight from "../utils/sequenceHighlight";
+import delay from "../utils/delay"
+import generateRandomSequence from "../utils/generateRandomSequence"
+import sequenceHighlight from "../utils/sequenceHighlight"
 
-const heapSort = async (arr, updateArr, setActiveIndex, delayMilliSeconds) => {
-  const length = arr.length;
-  if (length <= 1) return arr;
+const heapSort = async (updateArr, setActiveIndex, delayMilliSeconds, 
+    arrayLength, setMetaData, metaData, cancellationCheckFn) => {
+    
+    if (cancellationCheckFn && cancellationCheckFn()) {
+        setActiveIndex([])
+        return
+    }
 
-  // build max heap
-  for (let i = Math.floor(length / 2) - 1; i >= 0; i--) {
-    await heapify(arr, length, i, updateArr, setActiveIndex, delayMilliSeconds);
-  }
+    setMetaData({
+        iterations: metaData.iterations,
+        comparisons: metaData.comparisons,
+        swaps: metaData.swaps,
+        shifts: metaData.shifts
+    })
 
-  // Heap sort
-  for (let i = length - 1; i > 0; i--) {
-    // Swap root with the last element
-    [arr[0], arr[i]] = [arr[i], arr[0]];
-    setActiveIndex([0, i]);
-    updateArr([...arr]);
-    await delay(delayMilliSeconds);
 
-    // Maintain max heap property on reduced heap
-    await heapify(arr, i, 0, updateArr, setActiveIndex, delayMilliSeconds);
-  }
+    const arr = generateRandomSequence(arrayLength)
+    updateArr([...arr])
+    await delay(500)
 
-  sequenceHighlight(length, setActiveIndex, delayMilliSeconds);
-};
+    const length = arr.length
+    if (length <= 1) return arr
 
-const heapify = async (
-  arr,
-  length,
-  i,
-  updateArr,
-  setActiveIndex,
-  delayMilliSeconds
-) => {
-  let largest = i;
-  const leftChildIndex = 2 * i + 1;
-  const rightChildIndex = 2 * i + 2;
+    // Build max heap
+    for (let i = Math.floor(length / 2) - 1; i >= 0; i--) {
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
 
-  if (leftChildIndex < length && arr[leftChildIndex] > arr[largest]) {
-    largest = leftChildIndex;
-  }
+        setMetaData({
+            iterations: metaData.iterations+=0,
+            comparisons: metaData.comparisons,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
 
-  if (rightChildIndex < length && arr[rightChildIndex] > arr[largest]) {
-    largest = rightChildIndex;
-  }
+        await heapify(arr, length, i, updateArr, setActiveIndex, delayMilliSeconds, 
+            setMetaData, metaData, cancellationCheckFn)
+    }
 
-  if (largest !== i) {
-    [arr[i], arr[largest]] = [arr[largest], arr[i]];
-    setActiveIndex([i, largest]);
-    updateArr([...arr]);
-    await delay(delayMilliSeconds);
+    // Heap sort
+    for (let i = length - 1; i > 0; i--) {
 
-    await heapify(
-      arr,
-      length,
-      largest,
-      updateArr,
-      setActiveIndex,
-      delayMilliSeconds
-    );
-  }
-};
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
 
-export default heapSort;
+        // Swap root with the last element
+        [arr[0], arr[i]] = [arr[i], arr[0]]
+        setActiveIndex([0, i])
+        updateArr([...arr])
+        await delay(delayMilliSeconds)
+
+        // Maintain max heap property on reduced heap
+        let currentIndex = 0
+        let isHeapified = false
+
+        while (!isHeapified) {
+
+            if (cancellationCheckFn && cancellationCheckFn()) {
+                setActiveIndex([])
+                return
+            }
+
+            let largest = currentIndex;
+            const leftChildIndex = 2 * currentIndex + 1
+            const rightChildIndex = 2 * currentIndex + 2
+
+            if (leftChildIndex < i && arr[leftChildIndex] > arr[largest]) {
+                largest = leftChildIndex;
+            }
+
+            if (rightChildIndex < i && arr[rightChildIndex] > arr[largest]) {
+                largest = rightChildIndex
+            }
+
+            if (largest !== currentIndex) {
+                [arr[currentIndex], arr[largest]] = [arr[largest], arr[currentIndex]]
+                setActiveIndex([currentIndex, largest])
+                updateArr([...arr])
+                await delay(delayMilliSeconds)
+
+                currentIndex = largest
+
+                setMetaData({
+                    iterations: metaData.iterations,
+                    comparisons: metaData.comparisons,
+                    swaps: metaData.swaps+=1,
+                    shifts: metaData.shifts
+                })
+
+
+            } else {
+                isHeapified = true
+            }
+            
+            setMetaData({
+                iterations: metaData.iterations+=1,
+                comparisons: metaData.comparisons+=2,
+                swaps: metaData.swaps,
+                shifts: metaData.shifts
+            })
+
+            updateArr([...arr])
+            await delay(delayMilliSeconds)
+            
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+    }
+
+    sequenceHighlight(length, setActiveIndex, 10)
+
+}
+  
+const heapify = async (arr, heapSize, i, updateArr, setActiveIndex, 
+    delayMilliSeconds, setMetaData, metaData, cancellationCheckFn) => {
+    let currentIndex = i
+    let isHeapified = false
+
+    while (!isHeapified) {
+
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons+=2,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+
+        let largest = currentIndex
+        const leftChildIndex = 2 * currentIndex + 1
+        const rightChildIndex = 2 * currentIndex + 2
+
+        if (leftChildIndex < heapSize && arr[leftChildIndex] > arr[largest]) {
+            largest = leftChildIndex
+        }
+
+        if (rightChildIndex < heapSize && arr[rightChildIndex] > arr[largest]) {
+            largest = rightChildIndex
+        }
+
+        if (largest !== currentIndex) {
+            [arr[currentIndex], arr[largest]] = [arr[largest], arr[currentIndex]]
+            setActiveIndex([currentIndex, largest])
+            updateArr([...arr])
+            await delay(delayMilliSeconds)
+            
+            currentIndex = largest
+
+            setMetaData({
+                iterations: metaData.iterations,
+                comparisons: metaData.comparisons,
+                swaps: metaData.swaps+=1,
+                shifts: metaData.shifts
+            })
+
+
+        } else {
+            isHeapified = true
+        }
+    }
+}
+
+export default heapSort

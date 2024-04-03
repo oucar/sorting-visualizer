@@ -1,72 +1,169 @@
-import delay from "../utils/delay";
+import delay from "../utils/delay"
+import sequenceHighlight from "../utils/sequenceHighlight"
+import generateRandomSequence from "../utils/generateRandomSequence"
 
-// recursive implementation
-const mergeSort = async (
-  arr,
-  updateArr,
-  setActiveIndex,
-  delayMilliSeconds,
-  startIndex = 0
-) => {
-  const len = arr.length;
-  if (len <= 1) return arr;
+const mergeSort = async (updateArr, setActiveIndex, delayMilliSeconds, arrayLength, 
+    setMetaData, metaData, cancellationCheckFn) => {
 
-  const mid = Math.floor(len / 2);
-
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid, len);
-
-  const left1 = await mergeSort(
-    left,
-    updateArr,
-    setActiveIndex,
-    delayMilliSeconds
-  );
-  const right1 = await mergeSort(
-    right,
-    updateArr,
-    setActiveIndex,
-    delayMilliSeconds
-  );
-
-  return merge(left1, right1, updateArr, setActiveIndex, delayMilliSeconds);
-};
-
-const merge = async (
-  arr,
-  left,
-  right,
-  updateArr,
-  setActiveIndex,
-  delayMilliSeconds
-) => {
-  let tempArr;
-
-  while (left.length > 0 && right.length > 0) {
-    await delay(delayMilliSeconds);
-    if (left[0] > right[0]) {
-      tempArr.push(right[0]);
-      right.shift();
-    } else {
-      tempArr.push(left[0]);
-      left.shift();
+    if (cancellationCheckFn && cancellationCheckFn()) {
+        setActiveIndex([])
+        return
     }
-  }
 
-  while (left.length > 0) {
-    await delay(delayMilliSeconds);
-    tempArr.push(left[0]);
-    left.shift();
-  }
+    setMetaData({
+        iterations: metaData.iterations,
+        comparisons: metaData.comparisons,
+        swaps: metaData.swaps,
+        shifts: metaData.shifts
+    })
 
-  while (right.length > 0) {
-    await delay(delayMilliSeconds);
-    tempArr.push(right[0]);
-    right.shift();
-  }
+    const arr = generateRandomSequence(arrayLength)
+    updateArr([...arr])
+    await delay(500)
 
-  // updateArr(tempArr)
-  return tempArr;
-};
+    const length = arr.length
+    let width = 1
 
-export default mergeSort;
+    while (width < length) {
+
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+        
+        let left = 0 // start index of left array
+
+        while (left < length) {
+
+            if (cancellationCheckFn && cancellationCheckFn()) {
+                setActiveIndex([])
+                return
+            }
+
+            setMetaData({
+                iterations: metaData.iterations+=1,
+                comparisons: metaData.comparisons,
+                swaps: metaData.swaps,
+                shifts: metaData.shifts
+            })
+
+            const mid = left + width
+            const right = Math.min(left + 2 * width, length) // start index of right array
+            await merge(arr, left, mid, right, updateArr, setActiveIndex, 
+                delayMilliSeconds, setMetaData, metaData, cancellationCheckFn)
+            left += 2 * width
+        }
+
+        width *= 2
+    }
+
+    sequenceHighlight(length, setActiveIndex, 10)
+
+}
+
+
+const merge = async (arr, left, mid, right, updateArr, setActiveIndex, 
+    delayMilliSeconds, setMetaData, metaData, cancellationCheckFn) => {
+
+    if (cancellationCheckFn && cancellationCheckFn()) {
+        setActiveIndex([])
+        return
+    }
+
+    const leftArr = arr.slice(left, mid)
+    const rightArr = arr.slice(mid, right)
+    let [i, j, k] = [0, 0, left]
+
+    while (i < leftArr.length && j < rightArr.length) {
+
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons+=1,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+
+        if (leftArr[i] <= rightArr[j]) {
+            setActiveIndex([left+i, mid+j])
+            arr[k] = leftArr[i]
+            updateArr([...arr])
+            await delay(delayMilliSeconds)            
+            i++
+        } else {
+            setActiveIndex([left+i, mid+j])
+            arr[k] = rightArr[j]
+            updateArr([...arr])
+            await delay(delayMilliSeconds)
+            j++
+        }
+
+        k++
+    }
+
+    setMetaData({
+        iterations: metaData.iterations,
+        comparisons: metaData.comparisons+=1,
+        swaps: metaData.swaps,
+        shifts: metaData.shifts
+    })
+
+    while (i < leftArr.length) {
+
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+
+        setActiveIndex([left+i, mid+j])
+        arr[k] = leftArr[i]
+        updateArr([...arr])
+        await delay(delayMilliSeconds)
+        i++
+        k++
+    }
+
+    while (j < rightArr.length) {
+
+        if (cancellationCheckFn && cancellationCheckFn()) {
+            setActiveIndex([])
+            return
+        }
+
+        setMetaData({
+            iterations: metaData.iterations+=1,
+            comparisons: metaData.comparisons,
+            swaps: metaData.swaps,
+            shifts: metaData.shifts
+        })
+
+        setActiveIndex([left+i, mid+j])
+        arr[k] = rightArr[j]
+        updateArr([...arr])
+        await delay(delayMilliSeconds)
+        j++
+        k++
+    }
+
+}
+
+export default mergeSort
+

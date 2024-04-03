@@ -1,9 +1,9 @@
 .element {
-    width: 1em;
-    background-color: crimson;
-    margin: 1px
+  width: 0.7em;
+  background-color: crimson;
+  margin: 1px;
 }
 
 .active {
-    background-color: #52b788;
+  background-color: #52b788;
 }
