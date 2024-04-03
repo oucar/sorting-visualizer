@@ -5,7 +5,7 @@ const Menu = ({ menuVisible, setMenuVisible }) => {
 
     const menuItems = [
         "Bubble Sort", "Heap Sort", "Insertion Sort",
-        "Merge Sort", "WIP: Shell Sort", "Selection Sort", "Quick Sort"
+        "Merge Sort", "Shell Sort", "Selection Sort", "Quick Sort"
         ]
 
     const renderMenuItems = menuItems.map(item => (

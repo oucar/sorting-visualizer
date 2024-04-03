@@ -6,6 +6,7 @@ const sortingAlgorithms = [
   "Heap Sort",
   "Insertion Sort",
   "Merge Sort",
+  "Shell Sort",
   "Selection Sort",
   "Quick Sort",
 ];
