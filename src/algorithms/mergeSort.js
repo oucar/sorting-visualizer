@@ -19,6 +19,7 @@ const mergeSort = async (updateArr, setActiveIndex, delayMilliSeconds, arrayLeng
 
     const arr = generateRandomSequence(arrayLength)
     updateArr([...arr])
+    // represents after how many milliseconds the sorting will start
     await delay(500)
 
     const length = arr.length
