@@ -8,6 +8,7 @@ const bubbleSort = async (
   delayMilliSeconds,
   arrayLength,
   setMetaData,
+  metaData,
   cancellationCheckFn
 ) => {
   if (cancellationCheckFn && cancellationCheckFn()) {
@@ -19,13 +20,6 @@ const bubbleSort = async (
   let comparisons = 0;
   let swaps = 0;
   let shifts = 0;
-
-  setMetaData({
-    iterations: iterations,
-    comparisons: comparisons,
-    swaps: swaps,
-    shifts: shifts,
-  });
 
   const arr = generateRandomSequence(arrayLength);
   setterFunc([...arr]);

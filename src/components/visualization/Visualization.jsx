@@ -31,7 +31,6 @@ const Visualization = (props) => {
               swaps: 0,
               shifts: 0,
             },
-            // Pass the cancellation check function to the sort function
             () => isCancelled
           );
         } else {

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const randomNumber = Math.floor(Math.random() * 8);
 const sortingAlgorithms = [
   "Bubble Sort",
   "Heap Sort",
@@ -12,7 +11,7 @@ const sortingAlgorithms = [
 ];
 
 const initialState = {
-  value: sortingAlgorithms[randomNumber],
+  value: sortingAlgorithms[3],
 };
 
 export const algorithmSlice = createSlice({
