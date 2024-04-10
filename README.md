@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Sorting Algorithm Visualizer is a web application built using React 18, TypeScript, and Material UI. It allows users to visualize various sorting algorithms in action, providing an interactive and educational experience. Inspired by [Clément Mihailescu's insightful video](https://www.youtube.com/watch?v=pFXYym4Wbkc), this project aims to demonstrate the mechanics and efficiency of different sorting algorithms.
+The Sorting Algorithm Visualizer is a web application built using React 18, TypeScript, Redux and Material UI. It allows users to visualize various sorting algorithms in action, providing an interactive and educational experience. Inspired by [Clément Mihailescu's insightful video](https://www.youtube.com/watch?v=pFXYym4Wbkc), this project aims to demonstrate the mechanics and efficiency of different sorting algorithms.
 
 
 ## Features
