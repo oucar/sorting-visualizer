@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // max value is 2000
 // min value is 1
 const initialState = {
-  value: 100,
+  value: 20,
 };
 
 export const delaySlice = createSlice({
